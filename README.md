@@ -154,32 +154,108 @@ Swagger UI is available at:
 http://localhost:8080/swagger/index.html
 ```
 
-Generate docs with:
+### Install Swagger CLI
+
+Before generating Swagger documentation, install the `swag` CLI.
+
+#### macOS / Linux
+
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
+```
+
+Add Go binaries to your PATH if needed:
+
+```bash
+export PATH=$PATH:$(go env GOPATH)/bin
+```
+
+For zsh users:
+
+```bash
+echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.zshrc
+source ~/.zshrc
+```
+
+Verify installation:
+
+```bash
+swag --version
+```
+
+#### Windows (PowerShell)
+
+Install the Swagger CLI:
+
+```powershell
+go install github.com/swaggo/swag/cmd/swag@latest
+```
+
+Add Go's bin directory to your PATH:
+
+```powershell
+$env:Path += ";$(go env GOPATH)\bin"
+```
+
+Or permanently add:
+
+```text
+%USERPROFILE%\go\bin
+```
+
+to your system Environment Variables.
+
+Verify installation:
+
+```powershell
+swag --version
+```
+
+### Generate Swagger Documentation
+
+Generate Swagger docs from the project root:
 
 ```bash
 swag init -g cmd/server/main.go
 ```
 
-Then run the server again to view the generated Swagger UI.
+This will generate:
 
-To authorize requests in Swagger UI:
+```text
+docs/
+├── docs.go
+├── swagger.json
+└── swagger.yaml
+```
+
+After generation, restart the application and open:
+
+```text
+http://localhost:8080/swagger/index.html
+```
+
+### Authorize Requests
+
+To test protected endpoints:
 
 1. Open Swagger UI
-2. Click the `Authorize` button
-3. Enter:
+2. Click the **Authorize** button
+3. Enter your JWT token in the following format:
 
 ```text
 Bearer <YOUR_JWT_TOKEN>
 ```
 
-4. Click `Authorize`
+4. Click **Authorize**
 
-You can now test protected endpoints directly from Swagger UI.
+You can now call authenticated endpoints directly from Swagger UI.
 
 ### Regenerate Swagger Docs
 
-Whenever annotations are updated, regenerate Swagger docs:
+Whenever Swagger annotations are modified, regenerate the documentation:
 
 ```bash
 swag init -g cmd/server/main.go
 ```
+
+Then restart the server to load the updated documentation.
