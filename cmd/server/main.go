@@ -1,16 +1,3 @@
-// @title Golang Example Backend API
-// @version 1.0
-// @description REST API using Gin + GORM + PostgreSQL
-// @description This API provides authentication and user management features.
-
-// @host localhost:8080
-// @BasePath /api/v1
-
-// @securityDefinitions.apikey BearerAuth
-// @in header
-// @name Authorization
-// @description Type "Bearer" followed by a space and JWT token.
-
 package main
 
 import (
@@ -24,8 +11,6 @@ import (
     "github.com/SA/Golong-Backend-Example/internal/controllers"
     "github.com/SA/Golong-Backend-Example/internal/routes"
     "github.com/SA/Golong-Backend-Example/internal/utils"
-
-    _ "github.com/SA/Golong-Backend-Example/docs"
 )
 
 func main() {

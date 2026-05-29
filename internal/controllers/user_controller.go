@@ -30,15 +30,6 @@ func NewUserController(db *gorm.DB) *UserController {
 }
 
 // GetProfile returns the current user's profile.
-// @Summary Get current user profile
-// @Description Returns authenticated user profile
-// @Tags users
-// @Security BearerAuth
-// @Produce json
-// @Success 200 {object} dto.UserResponse
-// @Failure 401 {object} map[string]interface{}
-// @Failure 404 {object} map[string]interface{}
-// @Router /users/profile [get]
 func (h *UserController) GetProfile(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -60,17 +51,6 @@ func (h *UserController) GetProfile(c *gin.Context) {
 }
 
 // UpdateProfile updates the current user's profile.
-// @Summary Update current user profile
-// @Description Update authenticated user profile information
-// @Tags users
-// @Security BearerAuth
-// @Accept json
-// @Produce json
-// @Param request body dto.UpdateUserRequest true "Update User Payload"
-// @Success 200 {object} dto.UserResponse
-// @Failure 400 {object} map[string]interface{}
-// @Failure 401 {object} map[string]interface{}
-// @Router /users/profile [put]
 func (h *UserController) UpdateProfile(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -134,15 +114,6 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
 }
 
 // DeleteUser deletes the current user account.
-// @Summary Delete current user
-// @Description Delete authenticated user account
-// @Tags users
-// @Security BearerAuth
-// @Produce json
-// @Success 204
-// @Failure 400 {object} map[string]interface{}
-// @Failure 401 {object} map[string]interface{}
-// @Router /users/profile [delete]
 func (h *UserController) DeleteUser(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -169,14 +140,6 @@ func (h *UserController) DeleteUser(c *gin.Context) {
 }
 
 // GetAllUsers returns a list of all users.
-// @Summary Get all users
-// @Description Returns all registered users
-// @Tags users
-// @Security BearerAuth
-// @Produce json
-// @Success 200 {array} dto.UserResponse
-// @Failure 500 {object} map[string]interface{}
-// @Router /users [get]
 func (h *UserController) GetAllUsers(c *gin.Context) {
     var users []models.User
     if err := h.db.Find(&users).Error; err != nil {
@@ -193,16 +156,6 @@ func (h *UserController) GetAllUsers(c *gin.Context) {
 }
 
 // GetUserByID returns a user by ID.
-// @Summary Get user by ID
-// @Description Returns a user profile identified by the path ID
-// @Tags users
-// @Security BearerAuth
-// @Produce json
-// @Param id path int true "User ID"
-// @Success 200 {object} dto.UserResponse
-// @Failure 400 {object} map[string]interface{}
-// @Failure 404 {object} map[string]interface{}
-// @Router /users/{id} [get]
 func (h *UserController) GetUserByID(c *gin.Context) {
     idParam := c.Param("id")
     if idParam == "" {

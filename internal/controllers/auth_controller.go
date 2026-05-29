@@ -31,15 +31,6 @@ func NewAuthController(db *gorm.DB, jwtProvider utils.JWTProvider) *AuthControll
 }
 
 // Register creates a new user account.
-// @Summary Register new user
-// @Description Create a new user account
-// @Tags auth
-// @Accept json
-// @Produce json
-// @Param request body dto.RegisterRequest true "Register Payload"
-// @Success 201 {object} dto.AuthResponse
-// @Failure 400 {object} map[string]interface{}
-// @Router /auth/register [post]
 func (h *AuthController) Register(c *gin.Context) {
     var payload dto.RegisterRequest
     if err := c.ShouldBindJSON(&payload); err != nil {
@@ -98,16 +89,6 @@ func (h *AuthController) Register(c *gin.Context) {
 }
 
 // Login authenticates a user and returns a JWT token.
-// @Summary Login user
-// @Description Authenticate user and return JWT token
-// @Tags auth
-// @Accept json
-// @Produce json
-// @Param request body dto.LoginRequest true "Login Payload"
-// @Success 200 {object} dto.AuthResponse
-// @Failure 400 {object} map[string]interface{}
-// @Failure 401 {object} map[string]interface{}
-// @Router /auth/login [post]
 func (h *AuthController) Login(c *gin.Context) {
     var payload dto.LoginRequest
     if err := c.ShouldBindJSON(&payload); err != nil {
