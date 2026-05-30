@@ -13,6 +13,7 @@ import (
 func SetupRouter(authHandler *controllers.AuthController, userHandler *controllers.UserController) *gin.Engine {
     router := gin.New()
     router.Use(gin.Logger())
+    router.Use(middleware.CORSMiddleware())
 
     router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
