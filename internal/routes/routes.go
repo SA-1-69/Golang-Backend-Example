@@ -2,8 +2,6 @@ package routes
 
 import (
     "github.com/gin-gonic/gin"
-    ginSwagger "github.com/swaggo/gin-swagger"
-    swaggerFiles "github.com/swaggo/files"
 
     "github.com/SA/Golang-Backend-Example/internal/controllers"
     "github.com/SA/Golang-Backend-Example/internal/middleware"
@@ -14,8 +12,6 @@ func SetupRouter(authHandler *controllers.AuthController, userHandler *controlle
     router := gin.New()
     router.Use(gin.Logger())
     router.Use(middleware.CORSMiddleware())
-
-    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
     // Public Routes
     api := router.Group("/api/v1")
