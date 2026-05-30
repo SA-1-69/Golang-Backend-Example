@@ -14,6 +14,12 @@ import (
     "github.com/SA/Golang-Backend-Example/internal/utils"
 )
 
+const (
+    msgValidationError    = "validation error"
+    msgRegistrationFailed = "registration failed"
+    msgLoginFailed        = "login failed"
+)
+
 // AuthController manages authentication endpoints.
 type AuthController struct {
     db          *gorm.DB
@@ -39,23 +45,23 @@ func (h *AuthController) Register(c *gin.Context) {
     }
 
     if err := h.validate.Struct(payload); err != nil {
-        utils.JSONError(c, http.StatusBadRequest, "validation error", err.Error())
+        utils.JSONError(c, http.StatusBadRequest, msgValidationError, err.Error())
         return
     }
 
     existing, err := h.findByEmail(payload.Email)
     if err != nil {
-        utils.JSONError(c, http.StatusBadRequest, "registration failed", err.Error())
+        utils.JSONError(c, http.StatusBadRequest, msgRegistrationFailed, err.Error())
         return
     }
     if existing != nil {
-        utils.JSONError(c, http.StatusBadRequest, "registration failed", "email already registered")
+        utils.JSONError(c, http.StatusBadRequest, msgRegistrationFailed, "email already registered")
         return
     }
 
     hashedPassword, err := utils.HashPassword(payload.Password)
     if err != nil {
-        utils.JSONError(c, http.StatusBadRequest, "registration failed", err.Error())
+        utils.JSONError(c, http.StatusBadRequest, msgRegistrationFailed, err.Error())
         return
     }
 
@@ -69,13 +75,13 @@ func (h *AuthController) Register(c *gin.Context) {
     }
 
     if err := h.db.Create(user).Error; err != nil {
-        utils.JSONError(c, http.StatusBadRequest, "registration failed", err.Error())
+        utils.JSONError(c, http.StatusBadRequest, msgRegistrationFailed, err.Error())
         return
     }
 
     token, err := h.jwtProvider.GenerateToken(user.ID)
     if err != nil {
-        utils.JSONError(c, http.StatusBadRequest, "registration failed", err.Error())
+        utils.JSONError(c, http.StatusBadRequest, msgRegistrationFailed, err.Error())
         return
     }
 
@@ -104,28 +110,28 @@ func (h *AuthController) Login(c *gin.Context) {
     }
 
     if err := h.validate.Struct(payload); err != nil {
-        utils.JSONError(c, http.StatusBadRequest, "validation error", err.Error())
+        utils.JSONError(c, http.StatusBadRequest, msgValidationError, err.Error())
         return
     }
 
     user, err := h.findByEmail(payload.Email)
     if err != nil {
-        utils.JSONError(c, http.StatusUnauthorized, "login failed", err.Error())
+        utils.JSONError(c, http.StatusUnauthorized, msgLoginFailed, err.Error())
         return
     }
     if user == nil {
-        utils.JSONError(c, http.StatusUnauthorized, "login failed", "invalid email or password")
+        utils.JSONError(c, http.StatusUnauthorized, msgLoginFailed, "invalid email or password")
         return
     }
 
     if err := utils.ComparePassword(user.Password, payload.Password); err != nil {
-        utils.JSONError(c, http.StatusUnauthorized, "login failed", "invalid email or password")
+        utils.JSONError(c, http.StatusUnauthorized, msgLoginFailed, "invalid email or password")
         return
     }
 
     token, err := h.jwtProvider.GenerateToken(user.ID)
     if err != nil {
-        utils.JSONError(c, http.StatusUnauthorized, "login failed", err.Error())
+        utils.JSONError(c, http.StatusUnauthorized, msgLoginFailed, err.Error())
         return
     }
 
