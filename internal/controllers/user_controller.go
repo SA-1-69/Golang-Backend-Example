@@ -30,6 +30,16 @@ func NewUserController(db *gorm.DB) *UserController {
 }
 
 // GetProfile returns the current user's profile.
+// @Summary Get current user profile
+// @Description Get the profile of the currently authenticated user
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} dto.UserResponse "User profile retrieved successfully"
+// @Failure 401 {object} map[string]interface{} "Unauthorized - token missing or invalid"
+// @Failure 404 {object} map[string]interface{} "User not found"
+// @Router /users/profile [get]
 func (h *UserController) GetProfile(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -51,6 +61,17 @@ func (h *UserController) GetProfile(c *gin.Context) {
 }
 
 // UpdateProfile updates the current user's profile.
+// @Summary Update current user profile
+// @Description Update the profile information of the currently authenticated user
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body dto.UpdateUserRequest true "Update user request"
+// @Success 200 {object} dto.UserResponse "User profile updated successfully"
+// @Failure 400 {object} map[string]interface{} "Invalid request payload or validation error"
+// @Failure 401 {object} map[string]interface{} "Unauthorized - token missing or invalid"
+// @Router /users/profile [put]
 func (h *UserController) UpdateProfile(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -126,6 +147,16 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
 }
 
 // DeleteUser deletes the current user account.
+// @Summary Delete current user account
+// @Description Delete the account of the currently authenticated user
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 204 "User account deleted successfully"
+// @Failure 400 {object} map[string]interface{} "Delete failed"
+// @Failure 401 {object} map[string]interface{} "Unauthorized - token missing or invalid"
+// @Router /users/profile [delete]
 func (h *UserController) DeleteUser(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -152,6 +183,16 @@ func (h *UserController) DeleteUser(c *gin.Context) {
 }
 
 // GetAllUsers returns a list of all users.
+// @Summary Get all users
+// @Description Retrieve a list of all users in the system
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {array} dto.UserResponse "List of users retrieved successfully"
+// @Failure 401 {object} map[string]interface{} "Unauthorized - token missing or invalid"
+// @Failure 500 {object} map[string]interface{} "Failed to load users"
+// @Router /users [get]
 func (h *UserController) GetAllUsers(c *gin.Context) {
     var users []models.User
     if err := h.db.Find(&users).Error; err != nil {
@@ -168,6 +209,18 @@ func (h *UserController) GetAllUsers(c *gin.Context) {
 }
 
 // GetUserByID returns a user by ID.
+// @Summary Get user by ID
+// @Description Retrieve a specific user by their ID
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "User ID"
+// @Success 200 {object} dto.UserResponse "User retrieved successfully"
+// @Failure 400 {object} map[string]interface{} "Invalid user ID"
+// @Failure 401 {object} map[string]interface{} "Unauthorized - token missing or invalid"
+// @Failure 404 {object} map[string]interface{} "User not found"
+// @Router /users/{id} [get]
 func (h *UserController) GetUserByID(c *gin.Context) {
     idParam := c.Param("id")
     if idParam == "" {

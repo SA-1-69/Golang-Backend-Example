@@ -31,6 +31,15 @@ func NewAuthController(db *gorm.DB, jwtProvider utils.JWTProvider) *AuthControll
 }
 
 // Register creates a new user account.
+// @Summary Register a new user
+// @Description Create a new user account with email and password
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body dto.RegisterRequest true "Register request"
+// @Success 201 {object} dto.AuthResponse "User registered successfully"
+// @Failure 400 {object} map[string]interface{} "Invalid request payload or validation error"
+// @Router /auth/register [post]
 func (h *AuthController) Register(c *gin.Context) {
     var payload dto.RegisterRequest
     if err := c.ShouldBindJSON(&payload); err != nil {
@@ -96,6 +105,16 @@ func (h *AuthController) Register(c *gin.Context) {
 }
 
 // Login authenticates a user and returns a JWT token.
+// @Summary User login
+// @Description Authenticate a user with email and password to get a JWT token
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body dto.LoginRequest true "Login request"
+// @Success 200 {object} dto.AuthResponse "Login successful, JWT token returned"
+// @Failure 401 {object} map[string]interface{} "Invalid email or password"
+// @Failure 400 {object} map[string]interface{} "Invalid request payload"
+// @Router /auth/login [post]
 func (h *AuthController) Login(c *gin.Context) {
     var payload dto.LoginRequest
     if err := c.ShouldBindJSON(&payload); err != nil {
