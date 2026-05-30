@@ -9,9 +9,9 @@ import (
     "github.com/go-playground/validator/v10"
     "gorm.io/gorm"
 
-    "github.com/SA/Golong-Backend-Example/internal/dto"
-    "github.com/SA/Golong-Backend-Example/internal/models"
-    "github.com/SA/Golong-Backend-Example/internal/utils"
+    "github.com/SA/Golang-Backend-Example/internal/dto"
+    "github.com/SA/Golang-Backend-Example/internal/models"
+    "github.com/SA/Golang-Backend-Example/internal/utils"
 )
 
 // AuthController manages authentication endpoints.
@@ -31,15 +31,6 @@ func NewAuthController(db *gorm.DB, jwtProvider utils.JWTProvider) *AuthControll
 }
 
 // Register creates a new user account.
-// @Summary Register new user
-// @Description Create a new user account
-// @Tags auth
-// @Accept json
-// @Produce json
-// @Param request body dto.RegisterRequest true "Register Payload"
-// @Success 201 {object} dto.AuthResponse
-// @Failure 400 {object} map[string]interface{}
-// @Router /auth/register [post]
 func (h *AuthController) Register(c *gin.Context) {
     var payload dto.RegisterRequest
     if err := c.ShouldBindJSON(&payload); err != nil {
@@ -69,9 +60,12 @@ func (h *AuthController) Register(c *gin.Context) {
     }
 
     user := &models.User{
-        Name:     payload.Name,
-        Email:    payload.Email,
-        Password: hashedPassword,
+        FirstName: payload.FirstName,
+        LastName:  payload.LastName,
+        Email:     payload.Email,
+        Password:  hashedPassword,
+        Age:       payload.Age,
+        GenderID:  payload.GenderID,
     }
 
     if err := h.db.Create(user).Error; err != nil {
@@ -89,8 +83,12 @@ func (h *AuthController) Register(c *gin.Context) {
         Token: token,
         User: dto.UserResponse{
             ID:        user.ID,
-            Name:      user.Name,
+            FirstName: user.FirstName,
+            LastName:  user.LastName,
             Email:     user.Email,
+            Age:       user.Age,
+            BirthDay:  user.BirthDay,
+            GenderID:  user.GenderID,
             CreatedAt: user.CreatedAt.Format(time.RFC3339),
             UpdatedAt: user.UpdatedAt.Format(time.RFC3339),
         },
@@ -98,16 +96,6 @@ func (h *AuthController) Register(c *gin.Context) {
 }
 
 // Login authenticates a user and returns a JWT token.
-// @Summary Login user
-// @Description Authenticate user and return JWT token
-// @Tags auth
-// @Accept json
-// @Produce json
-// @Param request body dto.LoginRequest true "Login Payload"
-// @Success 200 {object} dto.AuthResponse
-// @Failure 400 {object} map[string]interface{}
-// @Failure 401 {object} map[string]interface{}
-// @Router /auth/login [post]
 func (h *AuthController) Login(c *gin.Context) {
     var payload dto.LoginRequest
     if err := c.ShouldBindJSON(&payload); err != nil {
@@ -145,8 +133,12 @@ func (h *AuthController) Login(c *gin.Context) {
         Token: token,
         User: dto.UserResponse{
             ID:        user.ID,
-            Name:      user.Name,
+            FirstName: user.FirstName,
+            LastName:  user.LastName,
             Email:     user.Email,
+            Age:       user.Age,
+            BirthDay:  user.BirthDay,
+            GenderID:  user.GenderID,
             CreatedAt: user.CreatedAt.Format(time.RFC3339),
             UpdatedAt: user.UpdatedAt.Format(time.RFC3339),
         },

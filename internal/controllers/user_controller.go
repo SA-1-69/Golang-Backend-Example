@@ -10,9 +10,9 @@ import (
     "github.com/go-playground/validator/v10"
     "gorm.io/gorm"
 
-    "github.com/SA/Golong-Backend-Example/internal/dto"
-    "github.com/SA/Golong-Backend-Example/internal/models"
-    "github.com/SA/Golong-Backend-Example/internal/utils"
+    "github.com/SA/Golang-Backend-Example/internal/dto"
+    "github.com/SA/Golang-Backend-Example/internal/models"
+    "github.com/SA/Golang-Backend-Example/internal/utils"
 )
 
 // UserController manages user endpoints.
@@ -30,15 +30,6 @@ func NewUserController(db *gorm.DB) *UserController {
 }
 
 // GetProfile returns the current user's profile.
-// @Summary Get current user profile
-// @Description Returns authenticated user profile
-// @Tags users
-// @Security BearerAuth
-// @Produce json
-// @Success 200 {object} dto.UserResponse
-// @Failure 401 {object} map[string]interface{}
-// @Failure 404 {object} map[string]interface{}
-// @Router /users/profile [get]
 func (h *UserController) GetProfile(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -60,17 +51,6 @@ func (h *UserController) GetProfile(c *gin.Context) {
 }
 
 // UpdateProfile updates the current user's profile.
-// @Summary Update current user profile
-// @Description Update authenticated user profile information
-// @Tags users
-// @Security BearerAuth
-// @Accept json
-// @Produce json
-// @Param request body dto.UpdateUserRequest true "Update User Payload"
-// @Success 200 {object} dto.UserResponse
-// @Failure 400 {object} map[string]interface{}
-// @Failure 401 {object} map[string]interface{}
-// @Router /users/profile [put]
 func (h *UserController) UpdateProfile(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -112,8 +92,11 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
         user.Email = payload.Email
     }
 
-    if payload.Name != "" {
-        user.Name = payload.Name
+    if payload.FirstName != "" {
+        user.FirstName = payload.FirstName
+    }
+    if payload.LastName != "" {
+        user.LastName = payload.LastName
     }
     if payload.Password != "" {
         hashedPassword, err := utils.HashPassword(payload.Password)
@@ -122,6 +105,15 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
             return
         }
         user.Password = hashedPassword
+    }
+    if payload.Age != nil {
+        user.Age = *payload.Age
+    }
+    if payload.BirthDay != nil {
+        user.BirthDay = payload.BirthDay
+    }
+    if payload.GenderID != nil {
+        user.GenderID = payload.GenderID
     }
 
     user.UpdatedAt = time.Now().UTC()
@@ -134,15 +126,6 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
 }
 
 // DeleteUser deletes the current user account.
-// @Summary Delete current user
-// @Description Delete authenticated user account
-// @Tags users
-// @Security BearerAuth
-// @Produce json
-// @Success 204
-// @Failure 400 {object} map[string]interface{}
-// @Failure 401 {object} map[string]interface{}
-// @Router /users/profile [delete]
 func (h *UserController) DeleteUser(c *gin.Context) {
     userID, ok := utils.GetUserIDFromContext(c)
     if !ok {
@@ -169,14 +152,6 @@ func (h *UserController) DeleteUser(c *gin.Context) {
 }
 
 // GetAllUsers returns a list of all users.
-// @Summary Get all users
-// @Description Returns all registered users
-// @Tags users
-// @Security BearerAuth
-// @Produce json
-// @Success 200 {array} dto.UserResponse
-// @Failure 500 {object} map[string]interface{}
-// @Router /users [get]
 func (h *UserController) GetAllUsers(c *gin.Context) {
     var users []models.User
     if err := h.db.Find(&users).Error; err != nil {
@@ -193,16 +168,6 @@ func (h *UserController) GetAllUsers(c *gin.Context) {
 }
 
 // GetUserByID returns a user by ID.
-// @Summary Get user by ID
-// @Description Returns a user profile identified by the path ID
-// @Tags users
-// @Security BearerAuth
-// @Produce json
-// @Param id path int true "User ID"
-// @Success 200 {object} dto.UserResponse
-// @Failure 400 {object} map[string]interface{}
-// @Failure 404 {object} map[string]interface{}
-// @Router /users/{id} [get]
 func (h *UserController) GetUserByID(c *gin.Context) {
     idParam := c.Param("id")
     if idParam == "" {
@@ -256,8 +221,12 @@ func (h *UserController) findByEmail(email string) (*models.User, error) {
 func mapUserToResponse(user *models.User) *dto.UserResponse {
     return &dto.UserResponse{
         ID:        user.ID,
-        Name:      user.Name,
+        FirstName: user.FirstName,
+        LastName:  user.LastName,
         Email:     user.Email,
+        Age:       user.Age,
+        BirthDay:  user.BirthDay,
+        GenderID:  user.GenderID,
         CreatedAt: user.CreatedAt.Format(time.RFC3339),
         UpdatedAt: user.UpdatedAt.Format(time.RFC3339),
     }

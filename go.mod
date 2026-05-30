@@ -1,4 +1,4 @@
-module github.com/SA/Golong-Backend-Example
+module github.com/SA/Golang-Backend-Example
 
 go 1.26.3
 

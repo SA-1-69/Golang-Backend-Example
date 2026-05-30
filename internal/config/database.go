@@ -6,7 +6,7 @@ import (
     "gorm.io/driver/postgres"
     "gorm.io/gorm"
 
-    "github.com/SA/Golong-Backend-Example/internal/models"
+    "github.com/SA/Golang-Backend-Example/internal/models"
 )
 
 // ConnectDatabase opens a PostgreSQL connection and runs migrations.
@@ -25,7 +25,12 @@ func ConnectDatabase(cfg *Config) (*gorm.DB, error) {
         return nil, err
     }
 
-    if err := db.AutoMigrate(&models.User{}); err != nil {
+    if err := db.AutoMigrate(&models.Gender{}, &models.User{}); err != nil {
+        return nil, err
+    }
+
+    // Seed initial data
+    if err := SeedDatabase(db); err != nil {
         return nil, err
     }
 
