@@ -7,10 +7,10 @@ import (
     "github.com/gin-gonic/gin"
     "github.com/joho/godotenv"
 
-    "github.com/SA/Golong-Backend-Example/internal/config"
-    "github.com/SA/Golong-Backend-Example/internal/controllers"
-    "github.com/SA/Golong-Backend-Example/internal/routes"
-    "github.com/SA/Golong-Backend-Example/internal/utils"
+    "github.com/SA/Golang-Backend-Example/internal/config"
+    "github.com/SA/Golang-Backend-Example/internal/controllers"
+    "github.com/SA/Golang-Backend-Example/internal/routes"
+    "github.com/SA/Golang-Backend-Example/internal/utils"
 )
 
 func main() {

@@ -5,8 +5,8 @@ import (
     ginSwagger "github.com/swaggo/gin-swagger"
     swaggerFiles "github.com/swaggo/files"
 
-    "github.com/SA/Golong-Backend-Example/internal/controllers"
-    "github.com/SA/Golong-Backend-Example/internal/middleware"
+    "github.com/SA/Golang-Backend-Example/internal/controllers"
+    "github.com/SA/Golang-Backend-Example/internal/middleware"
 )
 
 // SetupRouter registers application routes and middleware.

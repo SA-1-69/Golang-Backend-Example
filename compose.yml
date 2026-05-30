@@ -1,10 +1,10 @@
 services:
   postgres:
     image: postgres:17
-    container_name: golong-postgres
+    container_name: golang-postgres
 
     environment:
-      POSTGRES_DB: golongdb
+      POSTGRES_DB: golangdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 

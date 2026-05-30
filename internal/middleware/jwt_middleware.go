@@ -5,7 +5,7 @@ import (
     "strings"
 
     "github.com/gin-gonic/gin"
-    "github.com/SA/Golong-Backend-Example/internal/utils"
+    "github.com/SA/Golang-Backend-Example/internal/utils"
 )
 
 // JWTAuthMiddleware validates the JWT token and attaches the user ID to the request context.

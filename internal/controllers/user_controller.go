@@ -10,9 +10,9 @@ import (
     "github.com/go-playground/validator/v10"
     "gorm.io/gorm"
 
-    "github.com/SA/Golong-Backend-Example/internal/dto"
-    "github.com/SA/Golong-Backend-Example/internal/models"
-    "github.com/SA/Golong-Backend-Example/internal/utils"
+    "github.com/SA/Golang-Backend-Example/internal/dto"
+    "github.com/SA/Golang-Backend-Example/internal/models"
+    "github.com/SA/Golang-Backend-Example/internal/utils"
 )
 
 // UserController manages user endpoints.
@@ -92,8 +92,11 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
         user.Email = payload.Email
     }
 
-    if payload.Name != "" {
-        user.Name = payload.Name
+    if payload.FirstName != "" {
+        user.FirstName = payload.FirstName
+    }
+    if payload.LastName != "" {
+        user.LastName = payload.LastName
     }
     if payload.Password != "" {
         hashedPassword, err := utils.HashPassword(payload.Password)
@@ -102,6 +105,15 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
             return
         }
         user.Password = hashedPassword
+    }
+    if payload.Age != nil {
+        user.Age = *payload.Age
+    }
+    if payload.BirthDay != nil {
+        user.BirthDay = payload.BirthDay
+    }
+    if payload.GenderID != nil {
+        user.GenderID = payload.GenderID
     }
 
     user.UpdatedAt = time.Now().UTC()
@@ -209,8 +221,12 @@ func (h *UserController) findByEmail(email string) (*models.User, error) {
 func mapUserToResponse(user *models.User) *dto.UserResponse {
     return &dto.UserResponse{
         ID:        user.ID,
-        Name:      user.Name,
+        FirstName: user.FirstName,
+        LastName:  user.LastName,
         Email:     user.Email,
+        Age:       user.Age,
+        BirthDay:  user.BirthDay,
+        GenderID:  user.GenderID,
         CreatedAt: user.CreatedAt.Format(time.RFC3339),
         UpdatedAt: user.UpdatedAt.Format(time.RFC3339),
     }
