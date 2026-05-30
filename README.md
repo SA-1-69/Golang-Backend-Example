@@ -44,7 +44,7 @@ Controllers encapsulate request validation, business rules, and database queries
 3. Start PostgreSQL and pgAdmin with Docker Compose:
 
 ```bash
-docker compose -f compose.yml up -d
+docker compose up -d
 ```
 
 4. Create a `.env` file in the project root with the following values:
