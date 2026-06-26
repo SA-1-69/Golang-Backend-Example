@@ -16,6 +16,7 @@ type User struct {
 	Password  string    `gorm:"size:255;not null" json:"-"`
 	Age       int       `gorm:"default:0" json:"age"`
 	BirthDay  *time.Time `json:"birth_day"`
+	ImageUrl  string    `json:"image_url"`
 	GenderID  *uint     `json:"gender_id"`
 	Gender    *Gender   `gorm:"foreignKey:GenderID" json:"gender"`
 }

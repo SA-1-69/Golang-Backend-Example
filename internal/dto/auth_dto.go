@@ -7,6 +7,7 @@ type RegisterRequest struct {
 	Email     string `json:"email" validate:"required,email"`
 	Password  string `json:"password" validate:"required,min=8,max=72"`
 	Age       int    `json:"age" validate:"omitempty,min=0,max=150"`
+	ImageUrl  string `json:"image_url" validate:"omitempty"`
 	GenderID  *uint  `json:"gender_id" validate:"omitempty"`
 }
 

@@ -71,6 +71,7 @@ func (h *AuthController) Register(c *gin.Context) {
         Email:     payload.Email,
         Password:  hashedPassword,
         Age:       payload.Age,
+        ImageUrl:  payload.ImageUrl,
         GenderID:  payload.GenderID,
     }
 
@@ -94,6 +95,7 @@ func (h *AuthController) Register(c *gin.Context) {
             Email:     user.Email,
             Age:       user.Age,
             BirthDay:  user.BirthDay,
+            ImageUrl:  user.ImageUrl,
             GenderID:  user.GenderID,
             CreatedAt: user.CreatedAt.Format(time.RFC3339),
             UpdatedAt: user.UpdatedAt.Format(time.RFC3339),
@@ -144,6 +146,7 @@ func (h *AuthController) Login(c *gin.Context) {
             Email:     user.Email,
             Age:       user.Age,
             BirthDay:  user.BirthDay,
+            ImageUrl:  user.ImageUrl,
             GenderID:  user.GenderID,
             CreatedAt: user.CreatedAt.Format(time.RFC3339),
             UpdatedAt: user.UpdatedAt.Format(time.RFC3339),

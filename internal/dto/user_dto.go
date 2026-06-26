@@ -10,6 +10,7 @@ type UserResponse struct {
 	Email     string     `json:"email"`
 	Age       int        `json:"age"`
 	BirthDay  *time.Time `json:"birth_day"`
+	ImageUrl  string     `json:"image_url"`
 	GenderID  *uint      `json:"gender_id"`
 	CreatedAt string     `json:"created_at"`
 	UpdatedAt string     `json:"updated_at"`
@@ -23,5 +24,6 @@ type UpdateUserRequest struct {
 	Password  string    `json:"password" validate:"omitempty,min=8,max=72"`
 	Age       *int      `json:"age" validate:"omitempty,min=0,max=150"`
 	BirthDay  *time.Time `json:"birth_day"`
+	ImageUrl  string    `json:"image_url" validate:"omitempty,url"`
 	GenderID  *uint     `json:"gender_id"`
 }

@@ -112,6 +112,9 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
     if payload.BirthDay != nil {
         user.BirthDay = payload.BirthDay
     }
+    if payload.ImageUrl != "" {
+        user.ImageUrl = payload.ImageUrl
+    }
     if payload.GenderID != nil {
         user.GenderID = payload.GenderID
     }
@@ -226,6 +229,7 @@ func mapUserToResponse(user *models.User) *dto.UserResponse {
         Email:     user.Email,
         Age:       user.Age,
         BirthDay:  user.BirthDay,
+        ImageUrl:  user.ImageUrl,
         GenderID:  user.GenderID,
         CreatedAt: user.CreatedAt.Format(time.RFC3339),
         UpdatedAt: user.UpdatedAt.Format(time.RFC3339),
