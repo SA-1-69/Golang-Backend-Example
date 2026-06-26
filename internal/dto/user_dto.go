@@ -8,6 +8,7 @@ type UserResponse struct {
 	FirstName string     `json:"first_name"`
 	LastName  string     `json:"last_name"`
 	Email     string     `json:"email"`
+	Address   string     `json:"address"`
 	Age       int        `json:"age"`
 	BirthDay  *time.Time `json:"birth_day"`
 	GenderID  *uint      `json:"gender_id"`
@@ -20,6 +21,7 @@ type UpdateUserRequest struct {
 	FirstName string    `json:"first_name" validate:"omitempty,min=2,max=100"`
 	LastName  string    `json:"last_name" validate:"omitempty,min=2,max=100"`
 	Email     string    `json:"email" validate:"omitempty,email"`
+	Address   string    `json:"address" validate:"omitempty,min=0,max=255"`
 	Password  string    `json:"password" validate:"omitempty,min=8,max=72"`
 	Age       *int      `json:"age" validate:"omitempty,min=0,max=150"`
 	BirthDay  *time.Time `json:"birth_day"`

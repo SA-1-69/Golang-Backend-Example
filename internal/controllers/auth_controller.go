@@ -70,6 +70,7 @@ func (h *AuthController) Register(c *gin.Context) {
         LastName:  payload.LastName,
         Email:     payload.Email,
         Password:  hashedPassword,
+        Address:   payload.Address,
         Age:       payload.Age,
         GenderID:  payload.GenderID,
     }
@@ -92,6 +93,7 @@ func (h *AuthController) Register(c *gin.Context) {
             FirstName: user.FirstName,
             LastName:  user.LastName,
             Email:     user.Email,
+            Address:   user.Address,
             Age:       user.Age,
             BirthDay:  user.BirthDay,
             GenderID:  user.GenderID,
@@ -142,6 +144,7 @@ func (h *AuthController) Login(c *gin.Context) {
             FirstName: user.FirstName,
             LastName:  user.LastName,
             Email:     user.Email,
+            Address:   user.Address,
             Age:       user.Age,
             BirthDay:  user.BirthDay,
             GenderID:  user.GenderID,

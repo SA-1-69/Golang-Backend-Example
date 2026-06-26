@@ -106,6 +106,9 @@ func (h *UserController) UpdateProfile(c *gin.Context) {
         }
         user.Password = hashedPassword
     }
+    if payload.Address != "" {
+        user.Address = payload.Address
+    }   
     if payload.Age != nil {
         user.Age = *payload.Age
     }
@@ -224,6 +227,7 @@ func mapUserToResponse(user *models.User) *dto.UserResponse {
         FirstName: user.FirstName,
         LastName:  user.LastName,
         Email:     user.Email,
+        Address:   user.Address,
         Age:       user.Age,
         BirthDay:  user.BirthDay,
         GenderID:  user.GenderID,
